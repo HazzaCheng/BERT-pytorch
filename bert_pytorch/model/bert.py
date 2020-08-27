@@ -27,9 +27,11 @@ class BERT(nn.Module):
         self.feed_forward_hidden = hidden * 4
 
         # embedding for BERT, sum of positional, segment, token embeddings
+        # 将三种 embedding 加起来
         self.embedding = BERTEmbedding(vocab_size=vocab_size, embed_size=hidden)
 
         # multi-layers transformer blocks, deep network
+        # 堆叠 transformer block, 只用到了 transformer 的 encoder 部分
         self.transformer_blocks = nn.ModuleList(
             [TransformerBlock(hidden, attn_heads, hidden * 4, dropout) for _ in range(n_layers)])
 

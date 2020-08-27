@@ -35,6 +35,7 @@ class BERTDataset(Dataset):
         return self.corpus_lines
 
     def __getitem__(self, item):
+        # 只选取两句
         t1, t2, is_next_label = self.random_sent(item)
         t1_random, t1_label = self.random_word(t1)
         t2_random, t2_label = self.random_word(t2)
@@ -85,6 +86,7 @@ class BERTDataset(Dataset):
 
             else:
                 tokens[i] = self.vocab.stoi.get(token, self.vocab.unk_index)
+                # 这边 label 赋值为 0 是为了训练时 NLLLoss 的 ignore_index=0, 这样可以不引入没有 mask 的词的 loss
                 output_label.append(0)
 
         return tokens, output_label
